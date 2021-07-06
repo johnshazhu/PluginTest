@@ -83,3 +83,25 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+
+/.idea
+/build
+/gen
+/bin
+/proguard
+/.classpath
+/.settings
+/lint.xml
+*.DS_Store
+/.gradle
+local.properties
+*.classpath
+*.project
+*.prefs
+*.class
+/app/src/main/bin
+*.apk
+/app/src/main/gen
+/app/src/main/lint.xml
+/projectFilesBackup
+*.iml
