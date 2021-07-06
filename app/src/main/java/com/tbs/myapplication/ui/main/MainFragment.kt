@@ -44,6 +44,10 @@ class MainFragment : Fragment() {
         binding.testActivity.setOnClickListener {
             activity()
         }
+
+        binding.testResource.setOnClickListener {
+            resource()
+        }
     }
 
     private fun test() {
@@ -67,6 +71,15 @@ class MainFragment : Fragment() {
 
     private fun activity() {
         val cls = pluginLoader.loadClass("com.tbs.plugin1.MainActivity")
+        cls ?: return
+        Log.i(TAG, "find class : ${cls.name}")
+        val intent = Intent()
+        intent.component = ComponentName("com.tbs.plugin1", cls.name)
+        startActivity(intent)
+    }
+
+    private fun resource() {
+        val cls = pluginLoader.loadClass("com.tbs.plugin1.ResourceTestActivity")
         cls ?: return
         Log.i(TAG, "find class : ${cls.name}")
         val intent = Intent()
