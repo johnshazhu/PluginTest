@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext.kotlin_version = "1.5.20"
-    ext.isPlugin = true
+    ext.isPluginApk = true
     ext.androidTargetSdkVersion = 30
     repositories {
         google()

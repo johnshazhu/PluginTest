@@ -34,7 +34,7 @@ object BaseDexClassLoaderHookHelper {
         val dexFile = DexFile.loadDex(apkFile.canonicalPath, optDexFile.absolutePath, 0)
         val addObj = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val constructor = elementClass.getConstructor(DexFile::class.java, File::class.java)
-            constructor.newInstance(dexFile, null)
+            constructor.newInstance(dexFile, apkFile)
         } else {
             val constructor = elementClass.getConstructor(
                 File::class.java,

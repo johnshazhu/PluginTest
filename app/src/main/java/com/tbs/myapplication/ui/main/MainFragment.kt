@@ -19,7 +19,6 @@ class MainFragment : Fragment() {
     private lateinit var pluginLoader: PluginClassLoader
     companion object {
         const val TAG = "MainFragment"
-        const val PLUGIN_NAME = "plugin1-debug.apk"
         fun newInstance() = MainFragment()
     }
 

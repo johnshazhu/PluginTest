@@ -7,12 +7,12 @@ import android.util.Log
 import com.tbs.myapplication.hook.AMSHookHelper
 import com.tbs.myapplication.hook.BaseDexClassLoaderHookHelper
 import com.tbs.myapplication.loader.PluginClassLoader
-import com.tbs.myapplication.ui.main.MainFragment
 import java.io.File
 import java.io.FileOutputStream
 
 class BaseApplication : Application() {
     private lateinit var pluginLoader: PluginClassLoader
+    private var pluginPath: String? = null
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
@@ -24,6 +24,8 @@ class BaseApplication : Application() {
                 it.cacheDir?.absolutePath,
                 null,
                 it.classLoader)
+
+            pluginPath = apkFile.absolutePath
 
             val optDexFile = "${it.cacheDir?.absolutePath}/plugin/1.dex"
             val dexFile = File(optDexFile)
@@ -52,7 +54,7 @@ class BaseApplication : Application() {
             if (!apkFile.exists()) {
                 success = apkFile.createNewFile()
                 if (success) {
-                    val inputStream = context.assets?.open(MainFragment.PLUGIN_NAME)
+                    val inputStream = context.assets?.open(PLUGIN_NAME)
                     inputStream ?: return null
 
                     val fileOutputStream = FileOutputStream(apkFile)
@@ -73,4 +75,8 @@ class BaseApplication : Application() {
     }
 
     fun getPluginLoader() = pluginLoader
+
+    companion object {
+        const val PLUGIN_NAME = "plugin1-debug.apk"
+    }
 }

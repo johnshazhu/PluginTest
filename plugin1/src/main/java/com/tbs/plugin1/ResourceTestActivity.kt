@@ -1,11 +1,14 @@
 package com.tbs.plugin1
 
-import android.app.Activity
 import android.os.Bundle
+import android.view.LayoutInflater
+import com.tbs.plugin1.base.BaseActivity
 
-class ResourceTestActivity : Activity() {
+class ResourceTestActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        val view = LayoutInflater.from(getContext()).inflate(R.layout.activity_main, null)
+        setContentView(view)
     }
 }
