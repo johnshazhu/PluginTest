@@ -1,6 +1,7 @@
 package com.tbs.myapplication.hook
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Build
 import android.os.Handler
 import java.lang.reflect.Field
@@ -55,7 +56,7 @@ object AMSHookHelper {
 
     @SuppressLint("PrivateApi")
     @Throws(ClassNotFoundException::class, IllegalAccessException::class, NoSuchFieldException::class)
-    fun activityThreadHandler() {
+    fun activityThreadHandler(base: Context?) {
         val activityThreadCls = Class.forName("android.app.ActivityThread")
         val curActivityThreadField = activityThreadCls.getDeclaredField("sCurrentActivityThread")
         curActivityThreadField.isAccessible = true
@@ -65,15 +66,23 @@ object AMSHookHelper {
         mHField.isAccessible = true
         val handler: Handler = mHField.get(curActivityThread) as Handler
 
+        val mHObj = mHField.get(curActivityThread)
         val msgId: Int
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
-//            val msgIdField = mHObj.javaClass.getDeclaredField("EXECUTE_TRANSACTION")
-//            msgIdField.isAccessible = true
-            msgId = 159//msgIdField.get(mHObj)
+            val targetSdkVersion = base?.applicationInfo?.targetSdkVersion ?: Build.VERSION_CODES.KITKAT
+            if (targetSdkVersion < Build.VERSION_CODES.P) {
+                // greylist-max-o EXECUTE_TRANSACTION
+                val msgIdField = mHObj.javaClass.getField("EXECUTE_TRANSACTION")
+                msgIdField.isAccessible = true
+                msgId = msgIdField.get(mHObj) as Int
+            } else {
+                // hard code
+                msgId = 159
+            }
         } else {
-//            val msgIdField = mHObj.javaClass.getDeclaredField("LAUNCH_ACTIVITY")
-//            msgIdField.isAccessible = true
-            msgId = 100//msgIdField.get(mHObj)
+            val msgIdField = mHObj.javaClass.getDeclaredField("LAUNCH_ACTIVITY")
+            msgIdField.isAccessible = true
+            msgId = msgIdField.get(mHObj) as Int
         }
 
         val callbacksField = Handler::class.java.getDeclaredField("mCallback")

@@ -2,7 +2,7 @@
 buildscript {
     ext.kotlin_version = "1.5.20"
     ext.isPluginApk = true
-    ext.androidTargetSdkVersion = 30
+    ext.androidTargetSdkVersion = 26
     repositories {
         google()
         mavenCentral()

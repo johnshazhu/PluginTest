@@ -9,11 +9,11 @@ import com.tbs.myapplication.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
 
-    override fun attachBaseContext(newBase: Context?) {
-        super.attachBaseContext(newBase)
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
         try {
             AMSHookHelper.execStartActivityEntry()
-            AMSHookHelper.activityThreadHandler()
+            AMSHookHelper.activityThreadHandler(base)
         } catch (r : Throwable) {
             Log.e(AMSHookHelper.TAG, "hook failed")
             r.printStackTrace()
